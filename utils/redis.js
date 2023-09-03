@@ -61,7 +61,8 @@ class RedisClient {
     if (unbufferedFileData === 'connected') {
       // console.log('The file contents match.');
       return true;
-    } if (unbufferedFileData === 'disconnected') {
+    }
+    if (unbufferedFileData === 'disconnected') {
       // console.log('The file contents do not match.');
       return false;
     }
@@ -91,17 +92,21 @@ class RedisClient {
 
   async get(key) {
     // gets redis values from db
-    return promisify(this.client.get).bind(this.client)(key);
+    return promisify(this.client.get)
+      .bind(this.client)(key);
   }
 
   async set(key, value, duration) {
     // set redis key,value pair with expiration
-    await promisify(this.client.setex).bind(this.client)(key, duration, value);
+    await promisify(this.client.setex)
+      .bind(this.client)(key, duration, value);
   }
 
   async del(key) {
-    await promisify(this.client.del).bind(this.client)(key);
+    await promisify(this.client.del)
+      .bind(this.client)(key);
   }
+
   // set students(students) {
   //   if (Array.isArray(students)) {
   //     this._students = students;
@@ -110,5 +115,6 @@ class RedisClient {
   //   }
   // }
 }
+
 const redisClient = new RedisClient();
 export default redisClient;
