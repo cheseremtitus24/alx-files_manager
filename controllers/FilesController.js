@@ -189,10 +189,13 @@ class FilesController {
     const file = await fileUtils.getFile({ _id: ObjectId(fileId) });
 
     if (!file || !fileUtils.isOwnerAndPublic(file, userId)) {
+      // if file is not public and no use authenticated and not
+      // the owner return error Not found
       return res.status(404).send({ error: 'Not found' });
     }
 
     if (file.type === 'folder') {
+      // if the type is a folder return an error
       return res.status(400).send({ error: "A folder doesn't have content" });
     }
 
@@ -202,6 +205,8 @@ class FilesController {
       return res.status(code).send({ error });
     }
 
+    // Return the content of the file with the correct
+    // MIME-type
     const mimeType = mime.contentType(file.name);
     res.setHeader('Content-Type', mimeType);
 
